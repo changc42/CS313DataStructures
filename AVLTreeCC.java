@@ -1,5 +1,5 @@
 import java.lang.Math; 
-public class AVLtree<E extends Comparable<? super E>>{
+public class AVLtreeCC<E extends Comparable<? super E>>{
    private static class AVLNode<E extends Comparable<? super E>>{
       private E element;
       private AVLNode<E> parent;
@@ -51,26 +51,31 @@ public class AVLtree<E extends Comparable<? super E>>{
    }
    private AVLNode<E> root;
    private int size;
-   public AVLtree(){
+   public AVLtreeCC(){
       root = null;
       size = -1;
    }
    
-   public int range(){
-	   if(getRoot()==null) return 0;
-	   
-	   AVLNode<E> min = getRoot();
-	   AVLNode<E> max = getRoot();
-	   
-	   while(!isLeaf(min)){
-		   min = min.getLeft();
+   public int range(){;
+	   try{
+		   if(getRoot()==null) return 0;
+		   
+		   AVLNode<E> min = getRoot();
+		   AVLNode<E> max = getRoot();
+		   
+		   while(!isLeaf(min)){
+			   min = min.getLeft();
+		   }
+		   
+		   while(!isLeaf(max)){
+			   max = max.getRight();
+		   }
+		   
+		   return max.getE()-min.getE();
 	   }
-	   
-	   while(!isLeaf(min)){
-		   max = max.getRight();
+	   catch(Exception e){
+		   System.out.println("Arithmetic does not apply to elements");
 	   }
-	   
-	   return max.getE()-min.getE();
    }
    
    private AVLNode<E> balance(AVLNode<E> n){
@@ -105,8 +110,15 @@ public class AVLtree<E extends Comparable<? super E>>{
    }
    private AVLNode<E> rotateLeftChild(AVLNode<E> n1){
       AVLNode<E> n2 = n1.left;
+	  n1.setLeft(n2.getRight());
+	  if(n1.getLeft()!=null){
+		  n1.getLeft().setParent(n1);
+	  }
+	  n2.setRight(n1);
 	  n2.setParent(n1.getParent());
-	  if(n2.getRight
+	  n1.setParent(n2);
+	  n1.height = Math.max(n1.left.height, n1.right.height)+1;
+	  n2.height = Math.max(n2.left.height, n2.right.height)+1;
       return n2;
   }
    private AVLNode<E> rotateRightChild(AVLNode<E> n1){
@@ -141,12 +153,12 @@ public class AVLtree<E extends Comparable<? super E>>{
       }
       int compare = e.compareTo(n.getE());
       if (compare < 0){
-	 n.left = add(e, n.left);
-	 n.left.setParent(n);
+		n.left = add(e, n.left);
+		n.left.setParent(n);
       }
       else if (compare > 0){
-	 n.right = add(e, n.right);
-	 n.right.setParent(n);
+		n.right = add(e, n.right);
+		n.right.setParent(n);
       }
       n = balance(n); 
       return n;
@@ -183,7 +195,7 @@ public class AVLtree<E extends Comparable<? super E>>{
  	 preOrder(n.right);
  }
    public static void main(String argc[]){
-      AVLtree<Integer> tr = new AVLtree<Integer>();
+      AVLtreeCC<Integer> tr = new AVLtreeCC<Integer>();
       tr.add(4);
       tr.add(5);
       System.out.println("Tree Height:" + tr.height());
