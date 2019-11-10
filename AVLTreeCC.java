@@ -55,28 +55,24 @@ public class AVLtreeCC<E extends Comparable<? super E>>{
       root = null;
       size = -1;
    }
-   
-   public int range(){;
-	   try{
-		   if(getRoot()==null) return 0;
+//range()
+   static public int range(AVLtreeCC<Integer> integerTree){
+		if(integerTree.getRoot()==null) return 0;
 		   
-		   AVLNode<E> min = getRoot();
-		   AVLNode<E> max = getRoot();
+		AVLNode<Integer> min = integerTree.getRoot();
+		AVLNode<Integer> max = integerTree.getRoot();
 		   
-		   while(!isLeaf(min)){
-			   min = min.getLeft();
-		   }
+		while(!isLeaf(min)){
+			min = min.getLeft();
+		}
 		   
-		   while(!isLeaf(max)){
-			   max = max.getRight();
-		   }
+		while(!isLeaf(max)){
+			max = max.getRight();
+		}
 		   
-		   return max.getE()-min.getE();
-	   }
-	   catch(Exception e){
-		   System.out.println("Arithmetic does not apply to elements");
-	   }
-   }
+		return max.getE()-min.getE();
+	}
+//-------------------
    
    private AVLNode<E> balance(AVLNode<E> n){
       if (n == null || isLeaf(n))
@@ -108,6 +104,8 @@ public class AVLtreeCC<E extends Comparable<? super E>>{
       if (n == null || n.left != null || n.right != null) return false;
       return true;
    }
+   
+//rotateleftChild
    private AVLNode<E> rotateLeftChild(AVLNode<E> n1){
       AVLNode<E> n2 = n1.left;
 	  n1.setLeft(n2.getRight());
@@ -117,10 +115,11 @@ public class AVLtreeCC<E extends Comparable<? super E>>{
 	  n2.setRight(n1);
 	  n2.setParent(n1.getParent());
 	  n1.setParent(n2);
-	  n1.height = Math.max(n1.left.height, n1.right.height)+1;
-	  n2.height = Math.max(n2.left.height, n2.right.height)+1;
+	  n1.height = Math.max(height(n1.left), height(n1.right))+1;
+	  n2.height = Math.max(height(n2.left), height(n2.right))+1;
       return n2;
   }
+  //------------
    private AVLNode<E> rotateRightChild(AVLNode<E> n1){
       AVLNode<E> n2 = n1.right;
       n1.right = n2.left;
