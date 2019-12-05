@@ -1,4 +1,4 @@
-public class MergeSort{
+public class MergeSortCC{
    public static void mergeSort(int[] a, int l, int h){
       if (l >= h) return;
       int mid = (h + l) / 2;
