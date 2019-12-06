@@ -10,7 +10,7 @@ public class MinHeapPriorityQueue<E extends Comparable<? super E>>{
    }
    public MinHeapPriorityQueue(E[] a){
 	   data = (E[]) new Comparable[a.length+1];
-	   for(int i=0; i<a.length; i++){
+	   for(int i=0; i<a.length+1; i++){
 		   data[i+1] = a[i];
 	   }
    }
